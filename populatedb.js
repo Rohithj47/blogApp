@@ -27,4 +27,26 @@ function createUser(username, password){
     })
 }
 
-createUser('testUser1', '1234')
+function createPost(title, content, author){
+  var newPost = new post({ title: title, content : content, author : author})
+  newPost.save(function(err){
+    if (err){
+      console.log('error saving Post by' + author )
+      return
+    }
+    console.log(newPost)
+  })
+
+}
+// var postSchema = new Schema({
+//   title: { type: String, required: true },
+//   content: { type: String, required: true },
+//   author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+//   comments: { type: Array, default: []},
+//   published: { type: Boolean },
+//   timestamp: { type: Date },
+//   imgUrl: { type: String },
+//   likes: { type: Array, default: [] },
+// })
+// createUser('testUser1', '1234')
+createPost('sampe Title', 'Blah Blah Blah Content', '627dff9142ef7edb02dcd631')
