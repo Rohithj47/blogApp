@@ -45,8 +45,8 @@ router.post("/user/login", user_controller.login_post);
 // POST signup
 router.post("/user/signup", user_controller.signup_post);
 
-// // get single user
-// router.get("/user/:id", user_controller.user);
+// get single user
+router.get("/user/:id", user_controller.user);
 
 // // google auth
 // router.post("/user/google", user_controller.google);
