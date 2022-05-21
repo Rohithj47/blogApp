@@ -27,7 +27,7 @@ module.exports.create_post = [
     (req, res, next) => {
         jwt.verify(req.token, process.env.SECRET, function(err, authData){
             if(err) { next(err)}
-            req.user = authData._id 
+            req.authData = authData 
             next() 
         })
     },
@@ -46,12 +46,14 @@ module.exports.create_post = [
 
         if( !errors ) { res.status(406).json({ errors : errors.array() })}
         // Validation succesful, We can create the Post 
+        const { title, content, published, imgUrl } = req.body;
         Post.create(
-            { title : req.body.title,
-              content : req.body.content,
-              author: req.user,
-              comments : [],
+            { title : title,
+              content : content,
+              author: req.authData._id,
+              published : published,
               timestamp: Date.now(),
+              imgUrl : imgUrl
             },
             (err, post) =>{
                 if (err || !post) { return res.json(err) }
@@ -63,12 +65,46 @@ module.exports.create_post = [
 
 ]
 
-module.exports.publish = function(req, res, next){
-    res.send("Not Handled yet")
-}
+module.exports.publish = [
+    (req, res, next) =>{
+        jwt.verify(req.token, process.env.SECRET, (err, authData) => {
+            if (err) { next(err) }
+            req.authData = authData
+            next()
+        })
+    },
+    (req,res) => {
+        let doc = Post.findOneAndUpdate(
+            {_id : req.params.id}, 
+            {published : true},
+            {new : true},
+            (err, post) => {
+                if (err) { return next(err) }
+                res.status(201).json(post)
+            }
+            )
+    }
+]
 
 module.exports.unpublish = function(req, res, next){
-    res.send("Not Handled yet")
+    (req, res, next) =>{
+        jwt.verify(req.token, process.env.SECRET, (err, authData) => {
+            if (err) { next(err) }
+            req.authData = authData
+            next()
+        })
+    },
+    (req,res) => {
+        let doc = Post.findOneAndUpdate(
+            {_id : req.params.id}, 
+            {published : false },
+            {new : true},
+            (err, post) => {
+                if (err) { return next(err) }
+                res.status(201).json(post)
+            }
+            )
+    }
 }
 
 module.exports.post_update = function(req, res, next){
