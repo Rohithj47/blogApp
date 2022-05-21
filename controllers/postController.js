@@ -163,18 +163,54 @@ module.exports.post_update = [
 ]
 
 module.exports.delete_post = function(req, res, next){
-    res.send("Not Handled yet")
+    (req, res, next) => {
+        jwt.verify(req.token, process.env.SECRET, (err, authData) => {
+          if (err) return res.status(400).json(err);
+          req.authData = authData;
+          next();
+        });
+      },
+        Post.findByIdAndRemove(req.params.id, function (err) {
+          if (err) return res.json(err);
+    
+          res.json({
+            message: "Post deleted successfully",
+          });
+        });
 }
 
-
-module.exports.likes = function(req, res, next){
-    res.send("Not Handled yet")
-}
 
 module.exports.like = function(req, res, next){
-    res.send("Not Handled yet")
+    Post.findByIdAndUpdate(
+        req.params.id,
+        { $push: { likes: req.body.user_id } },
+        { new: true },
+        function (err, post) {
+          if (err) return res.json(err);
+    
+          return res.json(post.likes);
+        }
+      );
 }
 
 module.exports.dislike = function(req, res, next){
-    res.send("Not Handled yet")
+    Post.findByIdAndUpdate(
+        req.params.id,
+        { $pull: { likes: req.body.user_id } },
+        { new: true },
+        function (err, post) {
+          if (err) return res.json(err);
+    
+          return res.json(post.likes);
+        }
+      );
 }
+
+module.exports.likes = function(req, res, next){
+    Post.findById(req.params.id, function (err, post) {
+        if (err) return res.json(err);
+    
+        return res.json(post.likes);
+      });
+}
+
