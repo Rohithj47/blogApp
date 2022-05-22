@@ -52,6 +52,22 @@ router.get("/user/:id", user_controller.user);
 // router.post("/user/google", user_controller.google);
 
 
+// GET all comments
+router.get("/posts/:post_id/comments", comment_controller.comments);
+
+// create comment
+router.post("/posts/:post_id/comments", comment_controller.create_comment);
+
+// edit comment
+router.put("comment/:id/edit", verifyToken, comment_controller.edit_comment);
+
+// delete comment
+router.delete("comment/:id/delete", verifyToken, comment_controller.delete_comment);
+
+// get single comment
+router.get("comment/:id", comment_controller.comment_get);
+
+
 module.exports = router;
 
 
