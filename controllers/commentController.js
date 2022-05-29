@@ -54,9 +54,9 @@ exports.create_comment = [
 
   exports.edit_comment = []
   exports.delete_comment = []
-  exports.comment_get = [
+  exports.comment_get = function(req, res){
       Comment.findById(req.params.id, (err, comment) => {
           if (err) { res.send(406).json({error: err}) }
           res.send({comment})
       })
-  ]
+  }
