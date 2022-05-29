@@ -8,6 +8,11 @@ function Signup(props){
     const [ username, setUsername ] = useState("")
     const [ password, setPassword ] = useState("")
     const [ confirmPassword, setConfirmPassword ] = useState("")
+    const [error, setError] = useState("");
+
+    useEffect(() => {
+        document.title = props.title || "Sign up | Blogify";
+      }, [props.title]);
 
     const submitHandler = function(e) {
         e.preventDefault();
@@ -15,17 +20,17 @@ function Signup(props){
         axios
             .post('/api/user/signup', { username, password, confirmPassword})
             .then((res) => {
-                localStorage.setItem('user', JSON.stringify(res.data))
-                props.setUser(res.data.user)
-                props.history.push("/");
+                props.history.push("/login");
 
             })
             .catch((err) => {
-                if (err.response.status === 401) {
-                  setError(err.response.data.message);
-                } else {
-                  console.error(err);
-                }
+                if (err.response.status === 409) {
+                    setError(err.response.data.error);
+                  } else if (err.response.status === 401) {
+                    setError(err.response.data.error);
+                  } else {
+                    console.error(err);
+                  }
               });
     }
 
@@ -131,7 +136,8 @@ function Signup(props){
           </div>
         </main>
       );
-    }
+}
 
+export default Signup;
 
 
