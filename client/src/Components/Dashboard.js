@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Preview from "./Preview";
-import Bulb from "../images/bulb.jpg";
+import Bulb from "../images/default.png";
 
 function Dashboard(props) {
   const [showPublished, setShowPublished] = useState(false);

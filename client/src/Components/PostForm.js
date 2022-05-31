@@ -2,6 +2,7 @@ import { Editor } from "@tinymce/tinymce-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
+const dotenv = require('dotenv').config()
 
 function PostForm(props) {
   const [formData, setFormData] = useState({
@@ -15,7 +16,7 @@ function PostForm(props) {
 
   let headers = {
     headers: {
-      Authorization: `Bearer ${JSON.parse(localStorage.getItem("user")).token}`,
+      Authorization: `${JSON.parse(localStorage.getItem("user")).token}`,
     },
   };
 
@@ -172,7 +173,7 @@ function PostForm(props) {
             className="btn btn-outline-secondary fw-bold mx-2"
             onClick={clearForm}
           >
-            Clear
+            Clear 
           </button>
         </div>
       </form>

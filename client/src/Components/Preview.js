@@ -1,7 +1,7 @@
 import moment from "moment";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Default from "../images/default.jpg";
+import Default from "../images/default.png";
 
 function Preview(props) {
   const handlePublish = function () {

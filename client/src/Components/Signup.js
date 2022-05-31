@@ -18,7 +18,7 @@ function Signup(props){
         e.preventDefault();
 
         axios
-            .post('/api/user/signup', { username, password, confirmPassword})
+            .post('/api/user/signup', { username, password, confirmPassword })
             .then((res) => {
                 props.history.push("/login");
 

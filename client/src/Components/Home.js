@@ -1,5 +1,5 @@
 import Preview from "./Preview";
-import illustration from "../images/illustration.png";
+import illustration from "../images/blogApppic1.jpg";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";

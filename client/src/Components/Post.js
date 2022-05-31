@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import ReactHtmlParser from "react-html-parser";
 import axios from "axios";
-import Default from "../images/default.jpg";
+import Default from "../images/default.png";
 
 function Post(props) {
   const [comments, setComments] = useState([]);
