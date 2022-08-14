@@ -2,10 +2,20 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Default from "../images/default.png";
+import { useEffect, useState } from "react";
 
 function Preview(props) {
+  const [author, setAuthor] = useState({})
+
+  useEffect(()=> {
+    axios.get(`/api/user/${props.author}`)
+         .then((res) => setAuthor(res.data))
+         .catch(err => console.log(err))
+  }, [])
+ 
   const handlePublish = function () {
     let urlString = props.published ? "unpublish" : "publish";
+    console.log("Hey")
 
     let headers = {
       headers: {
@@ -31,6 +41,7 @@ function Preview(props) {
         props.setToastText(toastText);
       })
       .catch((err) => {
+        console.log("Post unsuccessful")
         console.error(err);
       });
   };
@@ -53,7 +64,7 @@ function Preview(props) {
         <div className="p-2">
           <p className="fw-bold lead p-0">{props.title}</p>
           <p className="p-0 text-secondary">
-            By {props.author.username} / {moment(props.timestamp).format("lll")}
+            By {author?.username} / {moment(props.timestamp).format("lll")}
           </p>
         </div>
       </Link>

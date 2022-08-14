@@ -25,6 +25,7 @@ module.exports.post_get = function(req,res, next){
 
 module.exports.create_post = [
     (req, res, next) => {
+        console.log(req.token)
         jwt.verify(req.token, process.env.SECRET, function(err, authData){
             if(err) { next(err)}
             req.authData = authData 
@@ -51,7 +52,7 @@ module.exports.create_post = [
             { title : title,
               content : content,
               author: req.authData._id,
-              published : published,
+              published : published? published : true,
               timestamp: Date.now(),
               imgUrl : imgUrl
             },
@@ -86,8 +87,9 @@ module.exports.publish = [
     }
 ]
 
-module.exports.unpublish = function(req, res, next){
-    (req, res, next) =>{
+module.exports.unpublish = [
+  
+    (req, res, next) => {
         jwt.verify(req.token, process.env.SECRET, (err, authData) => {
             if (err) { next(err) }
             req.authData = authData
@@ -105,7 +107,7 @@ module.exports.unpublish = function(req, res, next){
             }
             )
     }
-}
+]
 
 module.exports.post_update = [
     (req, res, next) => {

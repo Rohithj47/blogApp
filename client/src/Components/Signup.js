@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
-import { withrouter } from "react"
+import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import Logo from "../images/logo.png";
 
@@ -19,11 +19,10 @@ function Signup(props){
 
         axios
             .post('/api/user/signup', { username, password, confirmPassword })
-            .then((res) => {
-                props.history.push("/login");
-
-            })
+            .then((res) => { 
+              props.history.push("/login")})
             .catch((err) => {
+              console.log(err)
                 if (err.response.status === 409) {
                     setError(err.response.data.error);
                   } else if (err.response.status === 401) {
@@ -138,6 +137,6 @@ function Signup(props){
       );
 }
 
-export default Signup;
+export default withRouter(Signup);
 
 

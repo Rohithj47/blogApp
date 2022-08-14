@@ -48,6 +48,7 @@ function Login(props) {
     axios
       .post("/api/user/login", { username, password })
       .then((res) => {
+        console.log(props)
         localStorage.setItem("user", JSON.stringify(res.data));
         props.setUser(res.data.user);
         props.history.push("/");

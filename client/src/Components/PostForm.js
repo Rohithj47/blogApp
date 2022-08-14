@@ -16,7 +16,7 @@ function PostForm(props) {
 
   let headers = {
     headers: {
-      Authorization: `${JSON.parse(localStorage.getItem("user")).token}`,
+      Authorization: `Bearer ${JSON.parse(localStorage.getItem("user")).token}`,
     },
   };
 

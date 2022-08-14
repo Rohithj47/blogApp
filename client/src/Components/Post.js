@@ -14,11 +14,18 @@ function Post(props) {
   const [commentEdit, setCommentEdit] = useState(false);
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState([]);
+  const [author, setAuthor] = useState({})
 
   // for page title
   useEffect(() => {
     document.title = `${props.title} | Blogify` || "Blogify";
   }, [props.title]);
+
+  useEffect(()=> {
+    axios.get(`/api/user/${props.author}`)
+         .then((res) => setAuthor(res.data))
+         .catch(err => console.log(err))
+  }, [props.author])
 
   // for post likes
   useEffect(() => {
@@ -121,12 +128,12 @@ function Post(props) {
           <div className="py-3 mt-4 text-center">
             <h1 className="fw-bold">{props.title}</h1>
             <p className="text-secondary">
-              By {props.author.username} -{" "}
+              By {author.username} -{" "}
               {moment(props.timestamp).format("lll")}
             </p>
           </div>
 
-          <div hidden={props.user?._id === props.author._id ? false : true}>
+          <div hidden={props.user?._id === props.author? false : true}>
             <button
               onClick={handleEdit}
               className="btn btn-dark fw-bold letter-spacing mx-2"

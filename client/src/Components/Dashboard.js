@@ -8,13 +8,13 @@ function Dashboard(props) {
 
   useEffect(() => {
     props.posts.filter(
-      (post) => post.author._id === props.user._id && post.published
+      (post) => post.author === props.user._id && post.published
     ).length
       ? setShowPublished(true)
       : setShowPublished(false);
 
     props.posts.filter(
-      (post) => post.author._id === props.user._id && !post.published
+      (post) => post.author === props.user._id && !post.published
     ).length
       ? setShowUnpublished(true)
       : setShowUnpublished(false);
@@ -43,7 +43,7 @@ function Dashboard(props) {
         >
           {props.posts
             .filter(
-              (post) => post.author._id === props.user._id && post.published
+              (post) => post.author === props.user._id && post.published
             )
             .map((post) => (
               <div className="col-12 col-md-4" key={post._id}>
@@ -76,7 +76,7 @@ function Dashboard(props) {
         >
           {props.posts
             .filter(
-              (post) => post.author._id === props.user._id && !post.published
+              (post) => post.author === props.user._id && !post.published
             )
             .map((post) => (
               <div className="col-12 col-md-4" key={post._id}>

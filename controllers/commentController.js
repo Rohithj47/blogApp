@@ -52,8 +52,57 @@ exports.create_comment = [
     },
   ];
 
-  exports.edit_comment = []
-  exports.delete_comment = []
+  exports.edit_comment = [
+    (req, res, next) => {
+      jwt.verify(req.token, process.env.SECRET, (err, authData) => {
+        if (err) return res.status(400).json(err);
+        req.authData = authData;
+        next();
+      });
+    },
+    (req, res) => { 
+      let { content } = req.body
+
+        Comment.findById(req.params.id, (err, oldComment) =>{
+              if (err) {
+                  res.sendStatus(404).json({"message" : "No Comment Found"})
+              }
+        })
+
+          let newComment = { 
+            content : content,
+            timestamp : Date.now() 
+          }
+
+        Comment.findByIdAndUpdate(req.params.id, newComment, 
+            { new: true },
+            (err, newComment) => {
+                if(err) { return next(err) }
+                res.json(newComment)
+            }
+            )
+    }
+  ]
+
+  exports.delete_comment = [
+    (req, res, next) => {
+      jwt.verify(req.token, process.env.SECRET, (err, authData) => {
+        if (err) return res.status(400).json(err);
+        req.authData = authData;
+        next();
+      });
+    },
+    (req, res) => { 
+      Comment.findByIdAndRemove(req.params.id, function (err) {
+        if (err) return res.json(err);
+    
+          res.status(200).json({
+            message: "Comment deleted successfully",
+          });
+        });
+    }
+  ]
+
   exports.comment_get = function(req, res){
       Comment.findById(req.params.id, (err, comment) => {
           if (err) { res.send(406).json({error: err}) }
