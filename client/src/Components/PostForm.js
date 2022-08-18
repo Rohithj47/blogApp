@@ -1,7 +1,8 @@
 import { Editor } from "@tinymce/tinymce-react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
+import ReactHtmlParser from "react-html-parser";
 const dotenv = require('dotenv').config()
 
 function PostForm(props) {

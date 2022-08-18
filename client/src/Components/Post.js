@@ -185,7 +185,7 @@ function Post(props) {
         </section>
 
         <section className="py-3 content">
-          {ReactHtmlParser(props.content)}
+          {ReactHtmlParser(ReactHtmlParser(props.content))}
           <button
             className="like"
             onClick={handleLike}
